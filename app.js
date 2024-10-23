@@ -1,31 +1,24 @@
-const express  = require("express")
-const path = require("path")
-const app = express()
-const PORT = 8080
-app.use(express.json())
-filepath=path.join(__dirname,"/views/index.ejs")
+const express = require('express');
+const app = express();
+const PORT = 3000;
 
 app.set('view engine', 'ejs');
 
-
-
-app.get("/welcome",(req,res)=>{
-    let name="SAM"
-    const d = new Date();
-    const time = d.getTime();
-
-    res.render(filepath,{name,time})
-})
-
-
-
-
-
-app.listen(PORT,(err)=>{
-    if(err){
-        console.log(err)
+const products = [
+    { name: 'Laptop', price: 1000 },
+    { name: 'Mouse', price: 20 },
+    { name: 'Keyboard', price: 50 },
+    { name: 'Monitor', price: 150 },
+];
+app.get('/products', (req, res) => {
+    let search = req.query.search;
+    if(!search) {
+        return res.render('index', { products });
     }
-    else{
-        console.log(`Listening on PORT ${PORT} at http://localhost:${PORT}`);
-    }
-})
+    let filteredProducts = products.filter(product => product.name.toLowerCase().includes(search.toLowerCase()));
+    res.render('index', { products:filteredProducts });
+});
+
+app.listen(PORT, () => {
+    console.log(`Server is running on http://localhost:${PORT}`);
+});
