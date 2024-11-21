@@ -9,7 +9,7 @@ app.use(express.json())
 app.use("/students",studentsRouter)
 app.use("/courses",coursesRouter)
 
-mongoose.connect('mongodb+srv://Gagan:Gagan@930@cluster1.wnkx1.mongodb.net/?retryWrites=true&w=majority&appName=Cluster1')
+mongoose.connect(process.env.MONGO_URL)
   .then(() => {
     console.log('database Connected!')
     app.listen(PORT,(err)=>{
